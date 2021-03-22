@@ -40,6 +40,18 @@ let IN_CURLY_BRACKETS_BLOCK = false;
 let IN_EXPRESSION = false;
 let IN_VALUE = false;
 
+const handleClosingBracketWithout = (textArray: String[], index: number): number => {
+	textArray[index] = "}";
+	let backwardIndex = index - 1;
+	console.log("BACK", backwardIndex, textArray[backwardIndex]);
+	while (!textArray[backwardIndex].match(/\S/)) {
+		console.log("BACK", backwardIndex, textArray[backwardIndex]);
+		textArray[backwardIndex] = "";
+		backwardIndex--;
+	}
+	return backwardIndex;
+};
+
 const handleClosingBracket = (textArray: String[], index: number): number => {
 	textArray[index] = "}";
 	let backwardIndex = index - 1;
@@ -67,9 +79,6 @@ const checkCurrentBlock = (textArray: String[], index: number): String[] => {
         }
         IN_EXPRESSION = true;
         return checkCurrentBlock(textArray, i);
-    } else if (textArray[index] === "}") {
-        IN_CURLY_BRACKETS_BLOCK = false;
-        IN_EXPRESSION = false;
     } else if (IN_EXPRESSION) {
 		let i = index + 1;
 		console.log("INEXPRESSION", i);
